@@ -359,11 +359,14 @@
     ];
 
     function getZoneFromAngle(angle) {
-      if ((angle >= 315 && angle <= 360) || (angle >= 0 && angle < 45)) {
+      // Le curseur pointe en haut (0°)
+      // Division simple en 4 quadrants de 90°
+      
+      if (angle >= 0 && angle < 90) {
         return 'Right Hand';
-      } else if (angle >= 45 && angle < 135) {
+      } else if (angle >= 90 && angle < 180) {
         return 'Right Foot';
-      } else if (angle >= 135 && angle < 225) {
+      } else if (angle >= 180 && angle < 270) {
         return 'Left Foot';
       } else {
         return 'Left Hand';
