@@ -2,21 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Twister Roulette</title>
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
       background: #eee;
       font-family: sans-serif;
     }
 
     .roulette-container {
       position: relative;
-      width: 350px;
-      height: 350px;
+      width: min(350px, 90vw);
+      height: min(350px, 90vw);
+      max-width: 450px;
+      max-height: 450px;
     }
 
     /* Curseur */
@@ -35,8 +45,8 @@
 
     /* Roue extérieure (couleurs) */
     .ring {
-      width: 350px;
-      height: 350px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       background: conic-gradient(
         #1e87f0 0deg 20deg,
@@ -67,8 +77,8 @@
 
     /* Centre blanc */
     .center {
-      width: 220px;
-      height: 220px;
+      width: 63%;
+      height: 63%;
       background: white;
       border-radius: 50%;
       position: absolute;
@@ -79,7 +89,7 @@
       justify-content: center;
       align-items: center;
       color: rgba(0,0,0,0.5);
-      font-size: 14px;
+      font-size: clamp(10px, 3vw, 14px);
     }
 
     /* Quadrillage */
@@ -103,7 +113,8 @@
     .zone {
       position: absolute;
       text-align: center;
-      width: 80px;
+      width: clamp(60px, 20%, 80px);
+      font-size: clamp(8px, 2.5vw, 12px);
     }
 
     .left-hand { top: 10%; left: 10%; transform: rotate(-45deg); }
@@ -113,10 +124,10 @@
 
     /* Popup */
     .popup {
-      position: absolute;
-      top: -80px;
+      position: fixed;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
       background: white;
       border: 2px solid #333;
       border-radius: 8px;
@@ -125,8 +136,10 @@
       display: none;
       z-index: 20;
       text-align: center;
-      min-width: 300px;
-      max-width: 400px;
+      min-width: min(300px, 90vw);
+      max-width: min(400px, 95vw);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .popup .color-box {
@@ -158,23 +171,114 @@
     .question-content .theme {
       font-weight: bold;
       color: #666;
-      font-size: 12px;
+      font-size: clamp(11px, 3vw, 12px);
       margin-bottom: 5px;
     }
 
     .question-content .question {
-      font-size: 14px;
+      font-size: clamp(13px, 3.5vw, 14px);
       margin: 10px 0;
     }
 
     .question-content .type {
       font-style: italic;
       color: #999;
-      font-size: 11px;
+      font-size: clamp(10px, 2.8vw, 11px);
+    }
+
+    .options-list {
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .options-list .option {
+      padding: 8px 12px;
+      margin: 5px 0;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: clamp(12px, 3.2vw, 13px);
+    }
+
+    .options-list .option:hover {
+      background: #e8f4ff;
+      border-color: #1e87f0;
+    }
+
+    .answer-section {
+      margin-top: 15px;
+      padding: 10px;
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .answer-section.visible {
+      display: block;
+    }
+
+    .answer-section .answer-label {
+      font-weight: bold;
+      color: #856404;
+      margin-bottom: 5px;
+    }
+
+    .answer-section .answer-text {
+      color: #856404;
+    }
+
+    .show-answer-btn {
+      margin-top: 10px;
+      padding: 5px 10px;
+      border: none;
+      background: #ffc107;
+      color: #000;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .show-answer-btn:hover {
+      background: #ffb300;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 19;
+    }
+
+    .popup-overlay.visible {
+      display: block;
+    }
+
+    /* Media queries pour mobile */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .popup {
+        padding: 12px 15px;
+      }
+
+      .popup button {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="popup-overlay" id="popupOverlay" onclick="closePopup()"></div>
   <div class="roulette-container">
     <div class="cursor"></div>
     <div class="ring" id="roulette">
@@ -194,7 +298,13 @@
         <div class="theme" id="questionTheme"></div>
         <div class="question" id="questionText"></div>
         <div class="type" id="questionType"></div>
+        <div class="options-list" id="optionsList"></div>
+        <div class="answer-section" id="answerSection">
+          <div class="answer-label">Answer:</div>
+          <div class="answer-text" id="answerText"></div>
+        </div>
       </div>
+      <button class="show-answer-btn" id="showAnswerBtn" onclick="toggleAnswer()">Show Answer</button>
       <button onclick="closePopup()">Close</button>
     </div>
   </div>
@@ -207,6 +317,11 @@
     const questionTheme = document.getElementById("questionTheme");
     const questionText = document.getElementById("questionText");
     const questionType = document.getElementById("questionType");
+    const optionsList = document.getElementById("optionsList");
+    const answerSection = document.getElementById("answerSection");
+    const answerText = document.getElementById("answerText");
+    const showAnswerBtn = document.getElementById("showAnswerBtn");
+    const popupOverlay = document.getElementById("popupOverlay");
 
     // Charger les données de questions
     let questionsData = null;
@@ -308,23 +423,67 @@
         // Récupérer une question aléatoire
         const question = getRandomQuestion(segment.colorName);
         
+        console.log('Question:', question); // Debug
+        
         if (question && question.theme && question.question) {
           questionTheme.textContent = question.theme;
           questionText.textContent = question.question;
           const difficultyText = question.difficulty ? `Difficulty: ${question.difficulty}` : '';
           questionType.textContent = `Type: ${question.type}${difficultyText ? ' | ' + difficultyText : ''}`;
+          
+          // Afficher les options si c'est une question à choix multiples
+          optionsList.innerHTML = '';
+          if (question.options && Array.isArray(question.options) && question.options.length > 0) {
+            console.log('Options found:', question.options); // Debug
+            question.options.forEach((option, index) => {
+              const optionDiv = document.createElement('div');
+              optionDiv.className = 'option';
+              optionDiv.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+              optionsList.appendChild(optionDiv);
+            });
+          } else {
+            console.log('No options found'); // Debug
+          }
+          
+          // Préparer la réponse (masquée par défaut)
+          if (question.answer) {
+            answerText.textContent = question.answer;
+            answerSection.classList.remove('visible');
+            showAnswerBtn.textContent = 'Show Answer';
+            showAnswerBtn.style.display = 'inline-block';
+          } else {
+            showAnswerBtn.style.display = 'none';
+            answerSection.classList.remove('visible');
+          }
         } else {
           questionTheme.textContent = '';
           questionText.textContent = 'No question available';
           questionType.textContent = '';
+          optionsList.innerHTML = '';
+          showAnswerBtn.style.display = 'none';
+          answerSection.classList.remove('visible');
         }
         
         popup.style.display = "block";
+        popupOverlay.classList.add('visible');
       }, 4000);
     });
 
     function closePopup() {
       popup.style.display = "none";
+      popupOverlay.classList.remove('visible');
+      answerSection.classList.remove('visible');
+      showAnswerBtn.textContent = 'Show Answer';
+    }
+
+    function toggleAnswer() {
+      if (answerSection.classList.contains('visible')) {
+        answerSection.classList.remove('visible');
+        showAnswerBtn.textContent = 'Show Answer';
+      } else {
+        answerSection.classList.add('visible');
+        showAnswerBtn.textContent = 'Hide Answer';
+      }
     }
   </script>
 </body>
