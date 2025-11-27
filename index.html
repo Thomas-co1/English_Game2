@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Twister Roulette</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #eee;
+      font-family: sans-serif;
+    }
+
+    .roulette-container {
+      position: relative;
+      width: 350px;
+      height: 350px;
+    }
+
+    /* Curseur */
+    .cursor {
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 25px solid black;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(-190px);
+      z-index: 10;
+    }
+
+    /* Roue extérieure (couleurs) */
+    .ring {
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #1e87f0 0deg 20deg,
+        #fda066 20deg 40deg,
+        #a259ff 40deg 60deg,
+        #32d296 60deg 80deg,
+        #000 80deg 100deg,
+        #1e87f0 100deg 120deg,
+        #fda066 120deg 140deg,
+        #a259ff 140deg 160deg,
+        #32d296 160deg 180deg,
+        #1e87f0 180deg 200deg,
+        #fda066 200deg 220deg,
+        #a259ff 220deg 240deg,
+        #32d296 240deg 260deg,
+        #000 260deg 280deg,
+        #1e87f0 280deg 300deg,
+        #fda066 300deg 320deg,
+        #a259ff 320deg 340deg,
+        #32d296 340deg 360deg
+      );
+      transition: transform 4s ease-out;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Centre blanc */
+    .center {
+      width: 220px;
+      height: 220px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(0,0,0,0.5);
+      font-size: 14px;
+    }
+
+    /* Quadrillage */
+    .center::before {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      background: #ccc;
+    }
+
+    .center::after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      background: #ccc;
+    }
+
+    /* 4 zones textuelles */
+    .zone {
+      position: absolute;
+      text-align: center;
+      width: 80px;
+    }
+
+    .left-hand { top: 10%; left: 10%; transform: rotate(-45deg); }
+    .right-hand { top: 10%; right: 10%; transform: rotate(45deg); }
+    .left-foot { bottom: 10%; left: 10%; transform: rotate(45deg); }
+    .right-foot { bottom: 10%; right: 10%; transform: rotate(-45deg); }
+
+    /* Popup */
+    .popup {
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 15px 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 20;
+      text-align: center;
+      min-width: 300px;
+      max-width: 400px;
+    }
+
+    .popup .color-box {
+      width: 30px;
+      height: 30px;
+      display: inline-block;
+      margin-right: 10px;
+      vertical-align: middle;
+      border-radius: 4px;
+    }
+
+    .popup button {
+      margin-top: 10px;
+      padding: 5px 10px;
+      border: none;
+      background: #1e87f0;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .question-content {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+
+    .question-content .theme {
+      font-weight: bold;
+      color: #666;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .question-content .question {
+      font-size: 14px;
+      margin: 10px 0;
+    }
+
+    .question-content .type {
+      font-style: italic;
+      color: #999;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="roulette-container">
+    <div class="cursor"></div>
+    <div class="ring" id="roulette">
+      <div class="center">
+        <div class="zone left-hand">Left Hand</div>
+        <div class="zone right-hand">Right Hand</div>
+        <div class="zone left-foot">Left Foot</div>
+        <div class="zone right-foot">Right Foot</div>
+      </div>
+    </div>
+    <div class="popup" id="popup">
+      <span class="close-btn" onclick="closePopup()">×</span><br>
+      <span>you landed on</span><br>
+      <span class="color-box" id="colorBox"></span>
+      <span id="zoneName"></span><br>
+      <div class="question-content" id="questionContent">
+        <div class="theme" id="questionTheme"></div>
+        <div class="question" id="questionText"></div>
+        <div class="type" id="questionType"></div>
+      </div>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const roulette = document.getElementById("roulette");
+    const popup = document.getElementById("popup");
+    const colorBox = document.getElementById("colorBox");
+    const zoneName = document.getElementById("zoneName");
+    const questionTheme = document.getElementById("questionTheme");
+    const questionText = document.getElementById("questionText");
+    const questionType = document.getElementById("questionType");
+
+    // Charger les données de questions
+    let questionsData = null;
+
+    // Charger le fichier JSON
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        questionsData = data;
+        console.log('Questions loaded successfully');
+      })
+      .catch(error => {
+        console.error('Error loading questions:', error);
+      });
+
+    const segments = [
+      { color: '#1e87f0', colorName: 'BLUE' },
+      { color: '#fda066', colorName: 'ORANGE' },
+      { color: '#a259ff', colorName: 'PURPLE' },
+      { color: '#32d296', colorName: 'GREEN' },
+      { color: '#000000', colorName: 'BLACK' },
+      { color: '#1e87f0', colorName: 'BLUE' },
+      { color: '#fda066', colorName: 'ORANGE' },
+      { color: '#a259ff', colorName: 'PURPLE' },
+      { color: '#32d296', colorName: 'GREEN' },
+      { color: '#1e87f0', colorName: 'BLUE' },
+      { color: '#fda066', colorName: 'ORANGE' },
+      { color: '#a259ff', colorName: 'PURPLE' },
+      { color: '#32d296', colorName: 'GREEN' },
+      { color: '#000000', colorName: 'BLACK' },
+      { color: '#1e87f0', colorName: 'BLUE' },
+      { color: '#fda066', colorName: 'ORANGE' },
+      { color: '#a259ff', colorName: 'PURPLE' },
+      { color: '#32d296', colorName: 'GREEN' }
+    ];
+
+    function getZoneFromAngle(angle) {
+      if ((angle >= 315 && angle <= 360) || (angle >= 0 && angle < 45)) {
+        return 'Right Hand';
+      } else if (angle >= 45 && angle < 135) {
+        return 'Right Foot';
+      } else if (angle >= 135 && angle < 225) {
+        return 'Left Foot';
+      } else {
+        return 'Left Hand';
+      }
+    }
+
+    function getRandomQuestion(colorName) {
+      if (!questionsData) {
+        return null;
+      }
+
+      let questions = [];
+      
+      // Mapper les couleurs aux catégories
+      switch(colorName) {
+        case 'ORANGE':
+          questions = questionsData.questions_artificial_intelligence || [];
+          break;
+        case 'BLUE':
+          questions = questionsData.questions_general_knowledge || [];
+          break;
+        case 'PURPLE':
+          questions = questionsData.questions_dangers_internet || [];
+          break;
+        case 'GREEN':
+          questions = questionsData.questions_utility_applications || [];
+          break;
+        case 'BLACK':
+          questions = questionsData.questions_good_luck || [];
+          break;
+        default:
+          questions = questionsData.questions_general_knowledge || [];
+      }
+
+      if (questions.length === 0) {
+        return null;
+      }
+
+      // Sélectionner une question aléatoire
+      const randomIndex = Math.floor(Math.random() * questions.length);
+      return questions[randomIndex];
+    }
+
+    roulette.addEventListener("click", () => {
+      const spinDeg = Math.floor(Math.random() * 360) + 360 * (3 + Math.random() * 5);
+      roulette.style.transform = `rotate(${spinDeg}deg)`;
+
+      setTimeout(() => {
+        let normalizedDeg = (360 - (spinDeg % 360)) % 360;
+        const segmentIndex = Math.floor(normalizedDeg / 20) % segments.length;
+        const segment = segments[segmentIndex];
+        const zone = getZoneFromAngle(normalizedDeg);
+
+        colorBox.style.background = segment.color;
+        zoneName.textContent = zone;
+
+        // Récupérer une question aléatoire
+        const question = getRandomQuestion(segment.colorName);
+        
+        if (question && question.theme && question.question) {
+          questionTheme.textContent = question.theme;
+          questionText.textContent = question.question;
+          const difficultyText = question.difficulty ? `Difficulty: ${question.difficulty}` : '';
+          questionType.textContent = `Type: ${question.type}${difficultyText ? ' | ' + difficultyText : ''}`;
+        } else {
+          questionTheme.textContent = '';
+          questionText.textContent = 'No question available';
+          questionType.textContent = '';
+        }
+        
+        popup.style.display = "block";
+      }, 4000);
+    });
+
+    function closePopup() {
+      popup.style.display = "none";
+    }
+  </script>
+</body>
+</html>

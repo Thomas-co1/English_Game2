@@ -1,0 +1,362 @@
+{
+  "questions_dangers_internet": [
+    {
+      "id": 1,
+      "theme": "Dangers of the internet",
+      "question": "You should share your password",
+      "type": "True or false",
+      "difficulty": 1
+    },
+    {
+      "id": 2,
+      "theme": "Dangers of the internet",
+      "question": "An HTTPS website is 100% guaranteed to be safe",
+      "type": "True or false",
+      "difficulty": 2
+    },
+    {
+      "id": 3,
+      "theme": "Dangers of the internet",
+      "question": "An app can sell your data without permission",
+      "type": "True or false",
+      "difficulty": 3
+    },
+    {
+      "id": 4,
+      "theme": "Dangers of the internet",
+      "question": "Why should you use a strong password?",
+      "type": "Open question",
+      "difficulty": 1
+    },
+    {
+      "id": 5,
+      "theme": "Dangers of the internet",
+      "question": "What is a sign that your data has been hacked?",
+      "type": "Open question",
+      "difficulty": 2
+    },
+    {
+      "id": 6,
+      "theme": "Dangers of the internet",
+      "question": "What does 'ransomware' mean?",
+      "type": "Open question",
+      "difficulty": 3
+    },
+    {
+      "id": 7,
+      "theme": "Dangers of the internet",
+      "question": "What is a common online danger?",
+      "type": "Multiple choice",
+      "options": ["Phishing", "Surfing", "Shopping"],
+      "difficulty": 1
+    },
+    {
+      "id": 8,
+      "theme": "Dangers of the internet",
+      "question": "Phishing consists of...",
+      "type": "Multiple choice",
+      "options": ["Stealing the wifi", "Cooking fish", "Stealing passwords"],
+      "difficulty": 2
+    },
+    {
+      "id": 9,
+      "theme": "Dangers of the internet",
+      "question": "What is a sign that a Wi-Fi network has been compromised?",
+      "type": "Multiple choice",
+      "options": ["Unknown devices", "Long password", "Weak signal"],
+      "difficulty": 3
+    }
+  ],
+
+  "questions_artificial_intelligence": [
+    {
+      "id": 1,
+      "theme": "Artificial Intelligence",
+      "question": "AI can recognize images",
+      "type": "True or false",
+      "difficulty": 1
+    },
+    {
+      "id": 2,
+      "theme": "Artificial Intelligence",
+      "question": "AI can learn on its own without data",
+      "type": "True or false",
+      "difficulty": 2
+    },
+    {
+      "id": 3,
+      "theme": "Artificial Intelligence",
+      "question": "Generative AI can create completely original content",
+      "type": "True or false",
+      "difficulty": 2
+    },
+    {
+      "id": 4,
+      "theme": "Artificial Intelligence",
+      "question": "What do you call a machine that learns from examples?",
+      "type": "Open question",
+      "difficulty": 1
+    },
+
+    {
+      "id": 5,
+      "theme": "Artificial Intelligence",
+      "question": "What is the role of a dataset?",
+      "type": "Open question",
+      "difficulty": 2
+    },
+    {
+      "id": 6,
+      "theme": "Artificial Intelligence",
+      "question": "What do you call an AI that generates original content from examples?",
+      "type": "Open question",
+      "difficulty": 3
+    },
+        {
+      "id": 7,
+      "theme": "Artificial Intelligence",
+      "question": "Artificial intelligence",
+      "type": "Multiple choice",
+      "options": ["Make coffee", "Analyze data", "Cook"],
+      "difficulty": 1
+    },
+    {
+      "id": 8,
+      "theme": "Artificial Intelligence",
+      "question": "Artificial intelligence",
+      "type": "Multiple choice",
+      "options": ["Assisted intelligence", "Artificial intelligence", "Advanced Interface"],
+      "difficulty": 2
+    },
+    {
+      "id": 9,
+      "theme": "Artificial Intelligence",
+      "question": "Artificial intelligence",
+      "type": "Multiple choice",
+      "options": ["Medicine", "Agriculture", "Telecommunications"],
+      "difficulty": 2
+    }
+  ]
+  ,
+  "questions_general_knowledge": [
+    {
+      "id": 1,
+      "theme": "General knowledge on the internet",
+      "question": "YouTube belongs to Google",
+      "type": "True or false",
+      "difficulty": 1
+    },
+    {
+      "id": 4,
+      "theme": "General knowledge on the internet",
+      "question": "What symbol is used in hashtags?",
+      "type": "Open question",
+      "difficulty": 1
+    },
+    {
+      "id": 7,
+      "theme": "General knowledge on the internet",
+      "question": "What is the most well-known search engine?",
+      "type": "Multiple choice",
+      "options": ["Google", "Bing", "Yahoo"],
+      "difficulty": 1
+    },
+    {
+      "id": 2,
+      "theme": "General knowledge on the internet",
+      "question": "The first social networks used videos to communicate",
+      "type": "True or false",
+      "difficulty": 2
+    },
+    {
+      "id": 5,
+      "theme": "General knowledge on the internet",
+      "question": "In which year was YouTube created?",
+      "type": "Open question",
+      "difficulty": 2
+    },
+    {
+      "id": 8,
+      "theme": "General knowledge on the internet",
+      "question": "Who invented the World Wide Web?",
+      "type": "Multiple choice",
+      "options": ["Bill Gates", "Tim Berners-Lee", "Steve Jobs"],
+      "difficulty": 2
+    },
+    {
+      "id": 3,
+      "theme": "General knowledge on the internet",
+      "question": "The first website ever created is still online?",
+      "type": "True or false",
+      "difficulty": 3
+    },
+    {
+      "id": 6,
+      "theme": "General knowledge on the internet",
+      "question": "In which programming language was Minecraft created in 2009?",
+      "type": "Open question",
+      "difficulty": 3
+    },
+    {
+      "id": 9,
+      "theme": "General knowledge on the internet",
+      "question": "What was the first globally popular social network?",
+      "type": "Multiple choice",
+      "options": ["Facebook", "MySpace", "Instagram"],
+      "difficulty": 3
+    }
+  ],
+  "questions_utility_applications": [
+    {
+      "id": 1,
+      "theme": "Utility applications",
+      "question": "Free apps never collect data",
+      "type": "True or false",
+      "difficulty": 1
+    },
+    {
+      "id": 2,
+      "theme": "Utility applications",
+      "question": "An app can keep using your location in the background",
+      "type": "True or false",
+      "difficulty": 2
+    },
+    {
+      "id": 3,
+      "theme": "Utility applications",
+      "question": "An app can install software without permission",
+      "type": "True or false",
+      "difficulty": 2
+    },
+    {
+      "id": 4,
+      "theme": "Utility applications",
+      "question": "What is Google Maps used for?",
+      "type": "Open question",
+      "difficulty": 1
+    },
+    {
+      "id": 5,
+      "theme": "Utility applications",
+      "question": "TikTok is mainly known for...",
+      "type": "Multiple choice",
+      "options": ["Short videos", "Emails", "Longs videos"],
+      "difficulty": 1
+    },
+    {
+      "id": 6,
+      "theme": "Utility applications",
+      "question": "Utility applications are created using WordPress?",
+      "type": "Open question",
+      "difficulty": 2
+    },
+    {
+      "id": 7,
+      "theme": "Utility applications",
+      "question": "What type of data can an app silently collect?",
+      "type": "Multiple choice",
+      "options": ["Your deleted photos", "Your printed documents", "Your contacts"],
+      "difficulty": 2
+    },
+    {
+      "id": 8,
+      "theme": "Utility applications",
+      "question": "Utility applications are called without you noticing?",
+      "type": "Open question",
+      "difficulty": 2
+    },
+    {
+      "id": 9,
+      "theme": "Utility applications",
+      "question": "What kind of data can an app collect without you noticing?",
+      "type": "Open question",
+      "difficulty": 3
+    }
+  ],
+  "questions_good_luck": [
+    {
+      "id": 1,
+      "theme": "Good luck",
+      "question": "What is the first YouTube video?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 2,
+      "theme": "Good luck",
+      "question": "How to recognize mail phishing?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 3,
+      "theme": "Good luck",
+      "question": "Why can too much data be harmful for AI?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 4,
+      "theme": "Good luck",
+      "question": "Which software compressed or decompresses files easily?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 5,
+      "theme": "Good luck",
+      "question": "Which animated image format, created in 1987, still dominates the internet?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 6,
+      "theme": "Good luck",
+      "question": "What do you call an attack that requires no user click?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 7,
+      "theme": "Good luck",
+      "question": "What is the name for the data used to evaluate a model?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 8,
+      "theme": "Good luck",
+      "question": "Which software compresses multiple files into one archive?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 9,
+      "theme": "Good luck",
+      "question": "What is considered the first video game ever made?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 10,
+      "theme": "Good luck",
+      "question": "What type of attack overloads a website until it crashes?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 11,
+      "theme": "Good luck",
+      "question": "AI that learns without supervision?",
+      "type": "Open question",
+      "difficulty": null
+    },
+    {
+      "id": 12,
+      "theme": "Good luck",
+      "question": "Which tool secures a home Wi-Fi network?",
+      "type": "Open question",
+      "difficulty": null
+    }
+  ]
+}
