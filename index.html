@@ -114,13 +114,36 @@
       position: absolute;
       text-align: center;
       width: clamp(70px, 22%, 90px);
+      color: #000000;              /* Couleur du texte (noir par défaut) */
       font-size: clamp(10px, 3vw, 14px);
+      font-weight: bold;
+      white-space: nowrap;         /* Empêche le retour à la ligne */
     }
 
-    .left-hand { top: 10%; left: 10%; transform: rotate(-45deg); }
-    .right-hand { top: 10%; right: 10%; transform: rotate(45deg); }
-    .left-foot { bottom: 10%; left: 10%; transform: rotate(45deg); }
-    .right-foot { bottom: 10%; right: 10%; transform: rotate(-45deg); }
+    .left-hand { 
+      top: 25%; 
+      left: 15%; 
+      transform: rotate(-45deg);
+      transform-origin: center;
+    }
+    .right-hand { 
+      top: 25%; 
+      right: 15%; 
+      transform: rotate(45deg);
+      transform-origin: center;
+    }
+    .left-foot { 
+      bottom: 25%; 
+      left: 15%; 
+      transform: rotate(-135deg);
+      transform-origin: center;
+    }
+    .right-foot { 
+      bottom: 25%; 
+      right: 15%; 
+      transform: rotate(135deg);
+      transform-origin: center;
+    }
 
     /* Popup */
     .popup {
